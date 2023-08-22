@@ -1,0 +1,31 @@
+from collections import deque
+
+def clean_rooms_with_bfs(rooms):
+    total_rooms = len(rooms)
+    visited = set()
+    queue = deque([(0, rooms[:])])  # (position, rooms_state)
+
+    while queue:
+        position, current_rooms = queue.popleft()
+        
+        if position not in visited:
+            visited.add(position)
+            print(f"Current position: {position}   Rooms: {current_rooms}")
+            
+            if current_rooms[position] == 1:
+                print(f"Cleaning room {position}")
+                current_rooms[position] = 0
+            
+            if all(room == 0 for room in current_rooms):
+                break
+
+            next_positions = [position + 1, position - 1]
+            for next_pos in next_positions:
+                if 0 <= next_pos < total_rooms:
+                    queue.append((next_pos, current_rooms[:]))
+
+# Define the initial state of the rooms (0: clean, 1: dirty)
+initial_rooms = [0, 1, 0, 1, 1]
+
+# Clean the rooms using BFS
+clean_rooms_with_bfs(initial_rooms)
