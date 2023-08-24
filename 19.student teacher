@@ -1,0 +1,9 @@
+student(john, [math, science, history]).
+student(susan, [english, art]).
+student(jim, [math, science, art]).
+
+teacher(ms_johnson, math).
+teacher(mr_lee, science).
+teacher(mrs_doe, history).
+teacher(ms_jones, english).
+teacher(mr_lewis, art).
