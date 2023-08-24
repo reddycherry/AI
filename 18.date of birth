@@ -1,0 +1,5 @@
+person(benchoo, date(1990, 5, 15)).
+person(ferax, date(1985, 9, 30)).
+person(mehax, date(2000, 2, 10)).
+person(miya, date(1978, 12, 8)).
+person(fajii, date(2003, 17, 5)).
