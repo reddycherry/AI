@@ -1,0 +1,47 @@
+% Define graph edges (node1, node2, cost)
+edge(a, b, 4).
+edge(a, c, 2).
+edge(b, d, 5).
+edge(c, e, 3).
+edge(c, f, 7).
+edge(d, g, 6).
+edge(e, h, 1).
+edge(f, i, 9).
+
+% Define heuristic values for nodes
+heuristic(a, 10).
+heuristic(b, 5).
+heuristic(c, 8).
+heuristic(d, 6).
+heuristic(e, 3).
+heuristic(f, 4).
+heuristic(g, 2).
+heuristic(h, 7).
+heuristic(i, 0).
+
+% Best-First Search algorithm
+best_first_search(Start, Goal, Path) :-
+    best_first_search([node(Start, 0, Heuristic)], Goal, [], Path).
+
+best_first_search([node(Goal, Cost, _) | _], Goal, Visited, [Goal | Visited]) :-
+    reverse([Goal | Visited], Path),
+    write('Path found: '), write(Path), nl.
+
+best_first_search([node(Current, Cost, Heuristic) | Rest], Goal, Visited, Path) :-
+    findall(node(Next, NewCost, NextHeuristic),
+            (edge(Current, Next, StepCost),
+             heuristic(Next, NextHeuristic),
+             NewCost is Cost + StepCost),
+            NextNodes),
+    append(Rest, NextNodes, UpdatedQueue),
+    predsort(compare_nodes, UpdatedQueue, SortedQueue),
+    best_first_search(SortedQueue, Goal, [Current | Visited], Path).
+
+% Comparison predicate for sorting nodes based on their costs
+compare_nodes(<, node(_, Cost1, Heuristic1), node(_, Cost2, Heuristic2)) :-
+    Estimate1 is Cost1 + Heuristic1,
+    Estimate2 is Cost2 + Heuristic2,
+    Estimate1 =< Estimate2.
+
+% Example query
+?- best_first_search(a, i, Path).
